@@ -6,10 +6,9 @@ const dogSchema = new mongoose.Schema ({
     name: { type: String, required: true },
     breed: { type: String, required: true },
     color: { type: String, required: true },
-    gender: { type: String, required: true },
+    gender: { type: String, required: true, enum: ['male', 'female'] },
     age: { type: Number, required: false },
-//  age: { type: Number, message: "The puppy must be older than 6 weeks.", required: false },
-isAvailable: { type: Boolean, default: true },
+    isAvailable: { type: Boolean, default: true },
 });
 
 
