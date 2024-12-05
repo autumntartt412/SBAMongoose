@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
-// import Dog from "./models/Dog"; 
+import Dog from "./models/Dog"; 
 
 
 const dogSchema = new mongoose.Schema ({
     name: { type: String, required: true },
     breed: { type: String, required: true },
     color: { type: String, required: true },
-    gender: { type: String, required: true, enum: ['male', 'female'] },
+    gender: { type: String, required: true },
     age: { type: Number, required: false },
     isAvailable: { type: Boolean, default: true },
 });

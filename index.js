@@ -1,36 +1,42 @@
-import 'dotenv/config.js'
 import express from 'express'
 import mongoose from 'mongoose'
+
+// import 'dotenv/config.js'
+import dotenv from "dotenv"
+dotenv.config();
+
+// import router
+
 import routerDog from './routes/dogRoutes.js';
 import routerNote from './routes/noteRoutes.js';
 import routerUser from './routes/userRoutes.js';
 // const data = require('./utilities/data');
 
 
-const app = express();
+ // importing routes 
+
+
+
+// middleware 
 const PORT = 3000;
-
-
-//genersl middle ware 
+const app = express();
 
 app.use(express.json());
-//app.use(express.urlencoded({ extended: true })); 
+// app.use(express.urlencoded({ extended: true })); 
 
 
 // Connect to Mongoose.
 // You must specify the database you want to connect to in /conn strg.
 // This defaults to the "test" database.
-
-mongoose.connect(process.env.ATLAS_URI);
-
-
- // importing routes 
+await mongoose.connect(process.env.ATLAS_URI);
 
 app.use('/dog', routerDog);
 app.use('/note', routerNote);
 app.use('/user', routerUser);
 // app.use('./dogData', data);
 // app.use("/utilities/data", dogData);
+
+
 
 
 app.get("/", (req, res) => {

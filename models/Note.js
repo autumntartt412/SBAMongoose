@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-// import Note from "./models/Note";  
+import Note from "./models/Note.js";  
 
 
 const noteSchema = new mongoose.Schema({
