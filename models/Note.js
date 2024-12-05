@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+// import Note from "./models/Note";  
+
 
 const noteSchema = new mongoose.Schema({
     comment: { type: String, required: false },

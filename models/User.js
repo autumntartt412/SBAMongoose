@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+// import User from "./models/User"; 
 
 const userSchema = new mongoose.Schema ({
     firstName: { type: String, required: true },

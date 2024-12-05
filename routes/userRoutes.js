@@ -1,5 +1,6 @@
-const express = require('express');
+import  express from 'express'
 const router = express.Router();
+import db from "../db/conn.mjs"
 
 
 
@@ -8,37 +9,30 @@ const router = express.Router();
 // GET a user
 router
 .route("/")
-  .get((req, res, next) => { 
-    User.find({})
-      .then(users => {
-        res.send(users); 
-        console.log(users); 
-      })
-      .catch(error => {
-        console.error(error); 
-        res.status(500).send("Error fetching users"); 
-        next(error)
-      });
+  .get(async (req, res, next) => { 
+    const collection = await db.collection("users")
+    let result  = await collection.find({}).toArray() 
+    console.log(result);
+    res.send(result)
+
   })
 
-// POST create a new user
- .post(async (req, res) => {
- 
-  const newUser = {
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    contactNumber: req.body.contactNumber,
-    email: req.body.email
-  };
+  // POST a user
+  .post(async (req, res) => {
+    const collection = await db.collection("users")
+      const newUser = {
+          comment: req.body.comment,  
+          
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            contactNumber: req.body.contactNumber,
+            email: req.body.email,   
+      };
 
-  try {
-  
-    const user = await User.create(newUser); 
-    res.status(201).send(user);  
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Error creating user");
-  }
-});
+      let result  = await collection.insertOne(newUser)
+    res.send(result).status(204);
+   next(error)
+    });
 
-module.exports = router;
+
+export default router;

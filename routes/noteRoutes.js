@@ -1,38 +1,34 @@
-const express = require('express');
+import  express from 'express'
 const router = express.Router();
+import db from "../db/conn.mjs"
 
 
 
 // http://localhost:3000/note
+  
+  // GET a note
+  router
+  .route("/")
+    .get(async (req, res, next) => { 
+      const collection = await db.collection("notes")
+      let result  = await collection.find({}).toArray() 
+      console.log(result);
+      res.send(result )
 
-// GET a note
-router
-.route("/")
-  .get((req, res, next) => { 
-    Note.find({})
-      .then(notes => {
-        res.send(notes); 
-        console.log(notes); 
-      })
-      .catch(error => {
-        console.error(error); 
-        res.status(500).send("Error fetching notes"); 
-        next(error)
+    })
+  
+    // POST a note
+    .post(async (req, res) => {
+      const collection = await db.collection("notes")
+        const newNote = {
+            comment: req.body.comment,  
+        };
+
+        let result  = await collection.insertOne(newNote)
+      res.send(result).status(204);
+     next(error)
       });
-  })
-
-  // POST create a note
-  .post(async (req, res) => {
-      const newNote = {
-          comment: req.body.comment
-      };
-      Note.create(newNote).then(note => {
-          note = newNote;
-          res.status(201).send(note);
-      })
-   .catch(error => console.error(error));
-    });
 
 
 
-module.exports = router;
+    export default router;

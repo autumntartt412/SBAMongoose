@@ -1,28 +1,23 @@
-const express = require('express');
+import  express from 'express'
 const router = express.Router();
-
-
+import db from "../db/conn.mjs"
   
   // http://localhost:3000/dog
   
   // GET a dog
   router
   .route("/")
-    .get((req, res, next) => { 
-      Dog.find({})
-        .then(dogs => {
-          res.send(dogs);  
-          console.log(dogs);  
-        })
-        .catch(error => {
-          console.error(error); 
-          res.status(500).send({ message: "Error fetching dogs." }); 
-          next(error)
-        });
+    .get(async (req, res, next) => { 
+      const collection = await db.collection("dogs")
+      let result  = await collection.find({}).toArray() 
+      console.log(result);
+      res.send(result )
+
     })
   
     // POST a dog
     .post(async (req, res) => {
+      const collection = await db.collection("dogs")
         const newDog = {
             name: req.body.name,
             breed: req.body.breed,
@@ -31,20 +26,21 @@ const router = express.Router();
             age: req.body.age,
             isAvailable: req.body.avalable,   
         };
-        Dog.create(newDog).then(dog => {
-            dog = newDog;
-            res.status(201).send(dog);
-        })
-     .catch(error => console.error(error));
+
+        let result  = await collection.insertOne(newDog)
+      res.send(result).status(204);
      next(error)
       });
   
+
+
   // http://localhost:3000/dog/674f63eed8a6334a0f8c1546
   
   // GET a dog by its ID.
   router
   .route("/:id") 
   .get(async (req, res, next) => {
+    l
     const id = req.params.id;
   
     try {
@@ -94,7 +90,6 @@ const router = express.Router();
        next(error)
       }
     });
-
-module.exports = router;
+export default router
 
 
